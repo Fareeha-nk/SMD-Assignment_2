@@ -178,6 +178,7 @@
         android:backgroundTint="@color/pink"
         android:text="Share"
         android:textColor="@color/black"
+        android:textSize="5dp"
         android:id="@+id/preview_share">
 
     </Button>
