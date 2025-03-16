@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Assignment_2</string>
+    <string name="cv_builder">CV Builder</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="personal_details">Personal Details</string>
+    <string name="summary">Summary</string>
+    <string name="education">Education</string>
+    <string name="experience">Experience</string>
+    <string name="certifications">Certifications</string>
+    <string name="references">References</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+</resources>
