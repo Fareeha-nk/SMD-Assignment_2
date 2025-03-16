@@ -51,7 +51,11 @@ public class References extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Reference information saved successfully!", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(References.this, Home.class);
-                startActivity(i);
+                i.putExtra("Reference_Name", Ref_Name);
+                i.putExtra("Reference_Email", Ref_Email);
+                i.putExtra("Reference_Phone", Ref_Phone);
+                i.putExtra("Reference_Company", Ref_Company_Name);
+                setResult(RESULT_OK, i);
                 finish();
             }
         });

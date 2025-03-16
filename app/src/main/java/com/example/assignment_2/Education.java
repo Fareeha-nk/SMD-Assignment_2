@@ -46,7 +46,8 @@ public class Education extends AppCompatActivity {
             else{
                 Toast.makeText(this, "Education information saved successfully", Toast.LENGTH_SHORT).show();
                 Intent i= new Intent(Education.this, Home.class);
-                startActivity(i);
+                i.putExtra("Education", Education);
+                setResult(RESULT_OK, i);
                 finish();
             }
         });

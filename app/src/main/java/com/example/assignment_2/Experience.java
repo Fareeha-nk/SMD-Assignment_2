@@ -40,13 +40,14 @@ public class Experience extends AppCompatActivity {
             if(Experience.isEmpty()){
                 Toast.makeText(this, "Please fill the field!", Toast.LENGTH_SHORT).show();
             }
-            else if(Experience.length()<5 || Experience.length()>70){
+            else if(Experience.length()<5 || Experience.length()>200){
                 Toast.makeText(this, "Your word count is not appropriate", Toast.LENGTH_SHORT).show();
             }
             else{
                 Toast.makeText(this, "Experience information saved successfully", Toast.LENGTH_SHORT).show();
                 Intent i= new Intent(Experience.this, Home.class);
-                startActivity(i);
+                i.putExtra("Experience", Experience);
+                setResult(RESULT_OK, i);
                 finish();
             }
         });

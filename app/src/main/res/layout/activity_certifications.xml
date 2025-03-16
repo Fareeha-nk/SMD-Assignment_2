@@ -44,15 +44,6 @@
             android:id="@+id/certification_card"
             />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="320dp"
-            android:layout_marginTop="120dp"
-            android:src="@drawable/camera_icon"
-            android:layout_toEndOf="@id/certification_card"
-            android:id="@+id/camera_logo_cert">
-        </ImageView>
     </androidx.cardview.widget.CardView>
 
     <Button

@@ -1,18 +1,33 @@
 package com.example.assignment_2;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.net.URI;
+
 public class Home extends AppCompatActivity {
 
     Button btn_profile_picture, btn_personal_details, btn_summary_info, btn_education_info,btn_experience_info, btn_certifications_info, btn_references_info, btn_preview_info;
+    private Uri selectedImageUri;
+    ActivityResultLauncher<Intent> profile_picture_intent;
+    ActivityResultLauncher<Intent> personal_details;
+    ActivityResultLauncher<Intent> summary;
+    ActivityResultLauncher<Intent> education;
+    ActivityResultLauncher<Intent> work_experience;
+    ActivityResultLauncher<Intent> certifications;
+    ActivityResultLauncher<Intent> references;
+    private String profile_picture_uri;
 
     private void init(){
         btn_profile_picture=findViewById(R.id.profile_picture);
@@ -38,52 +53,127 @@ public class Home extends AppCompatActivity {
 
         init();
 
+        Intent intent1 = new Intent(Home.this, Preview.class);
+
+        //from Home to respective activities and getting data from activities to Home (Profile Picture)
         btn_profile_picture.setOnClickListener(v -> {
-            Intent i_pp= new Intent(Home.this, ProfilePicture.class);
-            startActivity(i_pp);
-            finish();
+            Intent uploadIntent= new Intent(Intent.ACTION_PICK);
+            uploadIntent.setType("image/*");
+            profile_picture_intent.launch(uploadIntent);
         });
 
+        //getting data from activity to Home (Profile Picture)
+        profile_picture_intent = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (result) -> {
+            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                Uri Image= result.getData().getData();
+                Toast.makeText(this, "Profile picture uploaded successfully!", Toast.LENGTH_SHORT).show();
+                intent1.putExtra("picture", Image.toString());
+            }
+        });
+
+        //(Personal Detail)
         btn_personal_details.setOnClickListener(v -> {
             Intent i_pd= new Intent(Home.this, PersonalDetails.class);
-            startActivity(i_pd);
-            finish();
+            personal_details.launch(i_pd);
         });
 
+        personal_details=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (result) -> {
+            if(result.getResultCode()==RESULT_OK && result.getData()!=null){
+                Intent get_personal_data= result.getData();
+                String username= get_personal_data.getStringExtra("Username");
+                String email=get_personal_data.getStringExtra("Email");
+                String phone=get_personal_data.getStringExtra("Phone");
+
+                intent1.putExtra("UserName", username);
+                intent1.putExtra("Email", email);
+                intent1.putExtra("Phone", phone);
+            }
+        });
+
+        //Summary
         btn_summary_info.setOnClickListener(v -> {
             Intent i_sum= new Intent(Home.this, Summary.class);
-            startActivity(i_sum);
-            finish();
+            summary.launch(i_sum);
         });
 
+        summary=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (result)-> {
+            if(result.getResultCode()==RESULT_OK && result.getData()!=null){
+                Intent get_summary=result.getData();
+                String summ=get_summary.getStringExtra("Summary");
+
+                intent1.putExtra("Summary_detail", summ);
+            }
+        });
+
+        //Education
         btn_education_info.setOnClickListener(v -> {
             Intent i_edu= new Intent(Home.this, Education.class);
-            startActivity(i_edu);
-            finish();
+            education.launch(i_edu);
         });
 
+        education=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (result) -> {
+            if(result.getResultCode()==RESULT_OK && result.getData()!=null){
+                Intent get_education=result.getData();
+                String edu= get_education.getStringExtra("Education");
+
+                intent1.putExtra("Education_detail", edu);
+            }
+        });
+
+        //Experience
         btn_experience_info.setOnClickListener(v -> {
             Intent i_exp= new Intent(Home.this, Experience.class);
-            startActivity(i_exp);
-            finish();
+            work_experience.launch(i_exp);
         });
 
+        work_experience=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),(result)-> {
+            if(result.getResultCode()==RESULT_OK && result.getData()!=null){
+                Intent get_experience=result.getData();
+                String experience=get_experience.getStringExtra("Experience");
+
+                intent1.putExtra("Experience_detail", experience);
+            }
+        });
+
+        //certifications
         btn_certifications_info.setOnClickListener(v -> {
             Intent i_cert= new Intent(Home.this, Certifications.class);
-            startActivity(i_cert);
-            finish();
+            certifications.launch(i_cert);
         });
 
+        certifications=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),(result)-> {
+            if(result.getResultCode()==RESULT_OK && result.getData()!=null){
+                Intent get_certificates=result.getData();
+                String certificates=get_certificates.getStringExtra("Certificates");
+
+                intent1.putExtra("Certificates_detail", certificates );
+            }
+        });
+
+        //references
         btn_references_info.setOnClickListener(v -> {
             Intent i_ref= new Intent(Home.this, References.class);
-            startActivity(i_ref);
-            finish();
+            references.launch(i_ref);
         });
 
+        references=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (result) -> {
+            if(result.getResultCode()==RESULT_OK && result.getData()!=null){
+                Intent get_reference_data= result.getData();
+                String preview_reference_name=get_reference_data.getStringExtra("Reference_Name");
+                String preview_reference_email=get_reference_data.getStringExtra("Reference_Email");
+                String preview_reference_phone=get_reference_data.getStringExtra("Reference_Phone");
+                String preview_reference_company=get_reference_data.getStringExtra("Reference_Company");
+
+                intent1.putExtra("Reference_name", preview_reference_name);
+                intent1.putExtra("Reference_email",preview_reference_email);
+                intent1.putExtra("Reference_phone", preview_reference_phone);
+                intent1.putExtra("Reference_company", preview_reference_company);
+            }
+        });
+
+
         btn_preview_info.setOnClickListener(v -> {
-            Intent i_preview= new Intent(Home.this, Preview.class);
-            startActivity(i_preview);
-            finish();
+            startActivity(intent1);
         });
 
 

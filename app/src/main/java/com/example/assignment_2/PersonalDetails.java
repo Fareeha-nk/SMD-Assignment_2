@@ -49,9 +49,12 @@ public class PersonalDetails extends AppCompatActivity {
                 Toast.makeText(this, "Your word count is not appropriate", Toast.LENGTH_SHORT).show();
             }
             else{
-                Toast.makeText(this, "Details Saved Successfully", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PersonalDetails.this, Home.class);
-                startActivity(intent);
+                Toast.makeText(this, "Details Saved Successfully", Toast.LENGTH_SHORT).show();
+                intent.putExtra("Username", name);
+                intent.putExtra("Email", email);
+                intent.putExtra("Phone", phone);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });

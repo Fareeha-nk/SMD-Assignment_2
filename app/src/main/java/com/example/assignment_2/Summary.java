@@ -40,13 +40,14 @@ public class Summary extends AppCompatActivity {
             if(Summary.isEmpty()){
                 Toast.makeText(this, "Please fill the field!", Toast.LENGTH_SHORT).show();
             }
-            else if(Summary.length()<5 || Summary.length()>70){
+            else if(Summary.length()<5 || Summary.length()>200){
                 Toast.makeText(this, "Your word count is not appropriate!", Toast.LENGTH_SHORT).show();
             }
             else{
                 Toast.makeText(this, "Summary saved successfully!", Toast.LENGTH_SHORT).show();
                 Intent i= new Intent(Summary.this, Home.class);
-                startActivity(i);
+                i.putExtra("Summary", Summary);
+                setResult(RESULT_OK, i);
                 finish();
             }
         });
